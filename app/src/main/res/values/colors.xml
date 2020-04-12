@@ -4,11 +4,13 @@
     <color name="colorIsCurrentUserNotSick">#4CAF50</color>
 
     <!-- Imported from UX Repo -->
-    <color name="colorPrimary">#BE3E49</color>
-    <color name="colorSecondary">#FFFFFF</color>
+    <color name="colorPrimary">#2c58b1</color>
+    <color name="colorPrimaryLight">#6684e4</color>
+    <color name="colorPrimaryDark">#003081</color>
+    <color name="colorSecondary">#43c4d9</color>
+    //TODO: what is this color?
     <color name="colorTertiary">#779F98</color>
-    <color name="colorPrimaryDark">#FFFFFF</color>
-    <color name="colorAccent">#03DAC5</color>
+    <color name="colorAccent">#f05452</color>
 
     <color name="splashBackgroundLight">#43C4D9</color>
     <color name="splashBackgroundDark">#2C58B1</color>
@@ -21,12 +23,11 @@
     <color name="primaryBackground">#2C58B1</color>
     <color name="secondaryBackground">#FFFFFF</color>
 
-    <color name="primaryText">#686868</color>
-    <color name="secondaryText">#FFFFFF</color>
+    <color name="primaryText">@android:color/white</color>
+    <color name="secondaryText">@android:color/black</color>
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="maroon">#B04040</color>
     <color name="maroon_shadow">#A0A0A0</color>
-    <color name="colorPrimaryLight">#DFDFDF</color>
 </resources>

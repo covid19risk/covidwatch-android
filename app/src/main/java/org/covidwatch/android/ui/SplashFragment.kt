@@ -5,11 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
-import org.covidwatch.android.databinding.FragmentTitleBinding
-import org.covidwatch.android.R
+import org.covidwatch.android.databinding.FragmentSplashBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,8 +36,8 @@ class TitleFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = DataBindingUtil.inflate<FragmentTitleBinding>(inflater,
-            R.layout.fragment_title,container,false)
+        val binding = DataBindingUtil.inflate<FragmentSplashBinding>(inflater,
+            R.layout.fragment_splash,container,false)
         binding.getStarted.setOnClickListener { view : View ->
             view.findNavController().navigate(R.id.action_titleFragment_to_onboardingFragment)
         }

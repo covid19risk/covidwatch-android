@@ -25,9 +25,9 @@
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
-        android:name="org.covidwatch.android.MainFragment"
-        android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
+        android:name="org.covidwatch.android.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_mainFragment_to_selfReportFragment"
             app:destination="@id/selfReportFragment" />

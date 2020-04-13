@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="org.covidwatch.android.MainFragment">
+    tools:context="org.covidwatch.android.HomeFragment">
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,8 +12,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:tag="layout/fragment_main_0"
-            tools:context="org.covidwatch.android.MainFragment">
+            android:tag="layout/fragment_home_0"
+            tools:context="org.covidwatch.android.HomeFragment">
 
             <fragment
                 android:id="@+id/header"

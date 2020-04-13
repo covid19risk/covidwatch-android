@@ -1,6 +1,5 @@
 package org.covidwatch.android
 
-import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -11,14 +10,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import org.covidwatch.android.databinding.FragmentMainBinding
+import org.covidwatch.android.databinding.FragmentHomeBinding
 
 /**
  * A simple [Fragment] subclass.
- * Use the [MainFragment.newInstance] factory method to
+ * Use the [HomeFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MainFragment : Fragment() {
+class HomeFragment : Fragment() {
     private lateinit var preferences : SharedPreferences
     private val INITIAL_VISIT = "INITIAL_VISIT"
 
@@ -26,8 +25,8 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = DataBindingUtil.inflate<FragmentMainBinding>(inflater,
-            R.layout.fragment_main,container,false)
+        val binding = DataBindingUtil.inflate<FragmentHomeBinding>(inflater,
+            R.layout.fragment_home,container,false)
         binding.shareTheAppButton.setOnClickListener {shareApp()}
         binding.selfReportButton.setOnClickListener { view : View ->
             view.findNavController().navigate(R.id.action_mainFragment_to_selfReportFragment)
@@ -64,6 +63,6 @@ class MainFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) = MainFragment()
+        fun newInstance(param1: String, param2: String) = HomeFragment()
     }
 }

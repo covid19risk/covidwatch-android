@@ -1,6 +1,7 @@
 package org.covidwatch.android.ble
 
 import android.app.*
+import android.bluetooth.BluetoothAdapter
 import android.content.ComponentName
 import android.content.Context
 import android.content.Context.BIND_AUTO_CREATE
@@ -11,6 +12,8 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat.getSystemService
+import androidx.databinding.ObservableBoolean
+import org.covidwatch.android.CovidWatchApplication
 import org.covidwatch.android.ui.MainActivity
 import org.covidwatch.android.R
 import org.covidwatch.android.data.ContactEvent
@@ -45,9 +48,10 @@ class BluetoothManagerImpl(
     private val cenGenerator = DefaultCenGenerator()
     private val cenVisitor = DefaultCenVisitor(app)
     private var timer: Timer? = null
-
+    var serviceConnectedObservable : ObservableBoolean = ObservableBoolean(false)
     private val serviceConnection: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            serviceConnectedObservable.set(true)
             this@BluetoothManagerImpl.service = (service as LocalBinder).service.apply {
                 configure(
                     BluetoothService.ServiceConfiguration(
@@ -62,7 +66,18 @@ class BluetoothManagerImpl(
             runTimer()
         }
 
-        override fun onServiceDisconnected(name: ComponentName?) = Unit
+        override fun onBindingDied(name: ComponentName?) {
+            (app as? CovidWatchApplication)?.bluetoothServiceStatusChanged(false)
+            super.onBindingDied(name)
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            (app as? CovidWatchApplication)?.bluetoothServiceStatusChanged(false)
+        }
+        override fun onNullBinding(name: ComponentName?) {
+            (app as? CovidWatchApplication)?.bluetoothServiceStatusChanged(false)
+            super.onNullBinding(name)
+        }
     }
 
     private fun runTimer() {
@@ -108,8 +123,13 @@ class BluetoothManagerImpl(
 
     override fun startService(cen: Cen) {
         cenGenerator.cen = cen
-        app.bindService(intent, serviceConnection, BIND_AUTO_CREATE)
-        app.startService(intent)
+        val bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+        if (bluetoothAdapter != null && bluetoothAdapter.isEnabled) {
+            app.bindService(intent, serviceConnection, BIND_AUTO_CREATE)
+            app.startService(intent)
+        } else {
+            (app as? CovidWatchApplication)?.bluetoothServiceStatusChanged(false)
+        }
     }
 
     override fun stopAdvertiser() {

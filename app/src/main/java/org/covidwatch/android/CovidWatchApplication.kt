@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -67,6 +68,14 @@ class CovidWatchApplication : Application() {
         }
     }
 
+    fun bluetoothServiceStatusChanged(serviceStarted: Boolean){
+        val firstUse = preferences.getBoolean(MainFragment.INITIAL_VISIT, true)
+        if (!serviceStarted && !firstUse){
+            Toast.makeText(this,"Please turn on Bluetooth", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private lateinit var preferences: SharedPreferences
     override fun onCreate() {
         super.onCreate()
 
@@ -84,15 +93,14 @@ class CovidWatchApplication : Application() {
             CurrentUserExposureNotifier(this)
         currentUserExposureNotifier.startObservingLocalContactEvents()
 
-        val isContactEventLoggingEnabled = getSharedPreferences(
+        preferences = getSharedPreferences(
             getString(R.string.preference_file_key), Context.MODE_PRIVATE
-        ).getBoolean(
+        )
+        val isContactEventLoggingEnabled = preferences.getBoolean(
             getString(R.string.preference_is_contact_event_logging_enabled),
             false
         )
         configureAdvertising(isContactEventLoggingEnabled)
-
-
     }
 
     private fun schedulePeriodicPublicContactEventsRefresh() {

@@ -20,7 +20,6 @@ import org.covidwatch.android.databinding.FragmentMainBinding
  */
 class MainFragment : Fragment() {
     private lateinit var preferences : SharedPreferences
-    private val INITIAL_VISIT = "INITIAL_VISIT"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,6 +62,7 @@ class MainFragment : Fragment() {
     }
 
     companion object {
+        const val INITIAL_VISIT = "INITIAL_VISIT"
         @JvmStatic
         fun newInstance(param1: String, param2: String) = MainFragment()
     }

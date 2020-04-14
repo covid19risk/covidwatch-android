@@ -71,6 +71,7 @@
     <string name="main_subtext_1">It works best when everyone uses it.</string>
     <string name="main_subtext_2">Share your result anonymously to help your community stay safe.</string>
     <string name="contact_alert_text">You may have been in contact with COVID-19</string>
+    <string name="you_reported_alert_text">You reported that you tested positive for COVID-19</string>
     <string name="share_intent_text">Help your community stay safe, anonymously:</string>
 
 </resources>

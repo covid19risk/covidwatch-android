@@ -1,9 +1,11 @@
 package org.covidwatch.android
 
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +14,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import org.covidwatch.android.data.CovidWatchDatabase
+import org.covidwatch.android.data.IsCurrentSickSharedPreferenceLiveData
 import org.covidwatch.android.databinding.FragmentHomeBinding
-import org.covidwatch.android.ui.SharedViewModel
+import org.covidwatch.android.ui.contactevents.ContactEventsViewModelFactory
+import org.covidwatch.android.ui.shared.SharedViewModel
 import org.covidwatch.android.ui.home.HomeViewModel
+import org.covidwatch.android.ui.shared.SharedViewModelFactory
 
 /**
  * A simple [Fragment] subclass.
@@ -51,14 +55,25 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val homeViewModel: HomeViewModel by viewModels()
-        val sharedViewModel: SharedViewModel by viewModels()
+        val safeContext = context ?: return
+        val sharedViewModel: SharedViewModel by viewModels(factoryProducer = {
+            SharedViewModelFactory(
+                IsCurrentSickSharedPreferenceLiveData(
+                    safeContext.getSharedPreferences(
+                        safeContext.getString(R.string.preference_file_key),
+                        Context.MODE_PRIVATE
+                    )
+                ),
+                safeContext.applicationContext as Application)
+        })
 
         homeViewModel.initialVisit.observe(viewLifecycleOwner, Observer {
             binding.mainTitle.text = if(it) getString(R.string.welcome_back_title) else getString(R.string.you_re_all_set_title)
         })
 
-        homeViewModel.isCurrentUserSick.observe(viewLifecycleOwner, Observer {
-            binding.contactAlertText.visibility = if(it) View.VISIBLE else View.GONE
+        sharedViewModel.isCurrentUserSick.observe(viewLifecycleOwner, Observer {
+            Log.i("is curr sick in shared", it.toString())
+            binding.contactAlertText.text = if(it) getString(R.string.you_reported_alert_text) else getString(R.string.contact_alert_text)
         })
 
         sharedViewModel.hasPossiblyInteractedWithInfected.observe(viewLifecycleOwner, Observer {

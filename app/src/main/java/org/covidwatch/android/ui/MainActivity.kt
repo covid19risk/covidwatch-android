@@ -1,6 +1,5 @@
 package org.covidwatch.android.ui
 
-import android.Manifest
 import android.Manifest.permission.*
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
@@ -9,21 +8,15 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.work.*
 import org.covidwatch.android.R
-import org.covidwatch.android.ble.BluetoothManagerImpl
 import org.covidwatch.android.data.BluetoothViewModel
-import org.covidwatch.android.data.ContactEventDAO
-import org.covidwatch.android.data.ContactEvent
-import org.covidwatch.android.data.CovidWatchDatabase
 import org.covidwatch.android.data.firestore.ContactEventsDownloadWorker
 
 class MainActivity : AppCompatActivity() {

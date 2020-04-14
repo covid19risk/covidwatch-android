@@ -36,33 +36,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         vm = ViewModelProvider(this).get(BluetoothViewModel::class.java)
-        // TODO #15: COMMENTING OUT BECAUSE USING EMULATOR
-        // BRING BACK AFTER MERGING UX FIRST RUN
-        // REMOVE adding example CEN
+
         initBluetoothAdapter()
-        Log.i("test", "did we make it here?")
-        addDummyCEN()
     }
 
     public override fun onResume() {
         super.onResume()
         refreshPublicContactEvents()
-    }
-
-    public fun addDummyCEN() {
-        val cen = BluetoothManagerImpl.DefaultCenGenerator().generate()
-        Log.i("test", "how about here?")
-        Log.i("CEN BOI", cen.data.toString())
-        CovidWatchDatabase.databaseWriteExecutor.execute {
-            val dao: ContactEventDAO = CovidWatchDatabase.getInstance(this).contactEventDAO()
-            val contactEvent = ContactEvent(cen.data.toString())
-            val isCurrentUserSick = this.getSharedPreferences(
-                this.getString(R.string.preference_file_key),
-                Context.MODE_PRIVATE
-            ).getBoolean(this.getString(R.string.preference_is_current_user_sick), false)
-            contactEvent.wasPotentiallyInfectious = isCurrentUserSick
-            dao.insert(contactEvent)
-        }
     }
 
     private fun setContactEventLogging(enabled: Boolean) {

@@ -16,7 +16,6 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import org.covidwatch.android.data.IsCurrentSickSharedPreferenceLiveData
 import org.covidwatch.android.databinding.FragmentHomeBinding
-import org.covidwatch.android.ui.contactevents.ContactEventsViewModelFactory
 import org.covidwatch.android.ui.shared.SharedViewModel
 import org.covidwatch.android.ui.home.HomeViewModel
 import org.covidwatch.android.ui.shared.SharedViewModelFactory

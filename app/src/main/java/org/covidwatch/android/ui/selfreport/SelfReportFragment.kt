@@ -12,9 +12,9 @@ import android.widget.Toast
 import androidx.databinding.DataBindingComponent
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import org.covidwatch.android.ui.contactevents.adapters.FragmentDataBindingComponent
 import org.covidwatch.android.databinding.FragmentSelfReportBinding
 import org.covidwatch.android.ui.selfreport.SelfReportViewModel
+import org.covidwatch.android.ui.shared.FragmentDataBindingComponent
 import java.text.SimpleDateFormat
 import java.util.*
 

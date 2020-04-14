@@ -3,14 +3,19 @@ package org.covidwatch.android
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.opengl.Visibility
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import org.covidwatch.android.databinding.FragmentHomeBinding
+import org.covidwatch.android.ui.home.HomeViewModel
 
 /**
  * A simple [Fragment] subclass.
@@ -19,34 +24,49 @@ import org.covidwatch.android.databinding.FragmentHomeBinding
  */
 class HomeFragment : Fragment() {
     private lateinit var preferences : SharedPreferences
-    private val INITIAL_VISIT = "INITIAL_VISIT"
+
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
+
+    private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = DataBindingUtil.inflate<FragmentHomeBinding>(inflater,
+        _binding = DataBindingUtil.inflate<FragmentHomeBinding>(inflater,
             R.layout.fragment_home,container,false)
         binding.shareTheAppButton.setOnClickListener {shareApp()}
         binding.selfReportButton.setOnClickListener { view : View ->
             view.findNavController().navigate(R.id.action_mainFragment_to_selfReportFragment)
         }
-        val application = context?.applicationContext ?: return binding.root
-        preferences = application.getSharedPreferences(
-            application.getString(R.string.preference_file_key),
-            Context.MODE_PRIVATE
-        )
-        val initialVisit = preferences.getBoolean(INITIAL_VISIT,true)
-        if (!initialVisit) {
-            binding.mainTitle.text = getString(R.string.welcome_back_title)
-            binding.mainText.text = getString(R.string.not_detected_text)
-        }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        homeViewModel.initialVisit.observe(viewLifecycleOwner, Observer {
+            binding.mainTitle.text = if(it) getString(R.string.welcome_back_title) else getString(R.string.you_re_all_set_title)
+        })
+
+        homeViewModel.isCurrentUserSick.observe(viewLifecycleOwner, Observer {
+            binding.contactAlertText.visibility = if(it) View.VISIBLE else View.GONE
+        })
     }
 
     override fun onResume() {
         super.onResume()
-        with (preferences.edit()) { putBoolean(INITIAL_VISIT, false); apply() }
+
+        val application = requireContext()
+        preferences = application.getSharedPreferences(
+            application.getString(R.string.preference_file_key),
+            Context.MODE_PRIVATE
+        )
+        with (preferences.edit()) {
+            putBoolean(application.getString(R.string.preference_initial_visit), false);
+            apply()
+        }
     }
 
     private fun shareApp() {
@@ -63,6 +83,6 @@ class HomeFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) = HomeFragment()
+        fun newInstance() = HomeFragment()
     }
 }

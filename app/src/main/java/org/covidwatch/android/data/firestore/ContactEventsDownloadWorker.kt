@@ -96,7 +96,6 @@ class ContactEventsDownloadWorker(var context: Context, workerParams: WorkerPara
                         null
                     })
 
-        // TODO #14 RE-ADD THIS AFTER FIREBASE QUOTA INCREASED
          Tasks.await(task)
 
         Log.i(TAG, "Finish task")

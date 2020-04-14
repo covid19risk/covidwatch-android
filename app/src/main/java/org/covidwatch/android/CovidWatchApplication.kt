@@ -102,7 +102,7 @@ class CovidWatchApplication : Application() {
             .build()
 
         val downloadRequest =
-            PeriodicWorkRequestBuilder<ContactEventsDownloadWorker>(3, TimeUnit.HOURS)
+            PeriodicWorkRequestBuilder<ContactEventsDownloadWorker>(5, TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 .build()
 

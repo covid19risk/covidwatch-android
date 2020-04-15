@@ -58,7 +58,6 @@ class BluetoothManagerImpl(
                 )
                 start()
             }
-
             runTimer()
         }
 

@@ -2,6 +2,7 @@ package org.covidwatch.android
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.Lifecycle
@@ -13,6 +14,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.covidwatch.android.ble.BluetoothManagerImpl
+import org.covidwatch.android.ble.EnableBluetoothService
 import org.covidwatch.android.data.CovidWatchDatabase
 import org.covidwatch.android.data.firestore.ContactEventsDownloadWorker
 import org.covidwatch.android.data.firestore.LocalContactEventsUploader
@@ -69,7 +71,7 @@ class CovidWatchApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-
+        startEnableBluetoothService()
         getSharedPreferences(
             getString(R.string.preference_file_key),
             Context.MODE_PRIVATE
@@ -93,6 +95,11 @@ class CovidWatchApplication : Application() {
         configureAdvertising(isContactEventLoggingEnabled)
 
 
+    }
+
+    private fun startEnableBluetoothService(){
+        val intent = Intent(this, EnableBluetoothService::class.java)
+        this.startService(intent)
     }
 
     private fun schedulePeriodicPublicContactEventsRefresh() {

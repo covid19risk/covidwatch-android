@@ -71,5 +71,6 @@
     <string name="main_subtext_2">Share your result anonymously to help your community stay safe.</string>
     <string name="contact_alert_text">You may have been in contact with COVID-19</string>
     <string name="share_intent_text">Help your community stay safe, anonymously:</string>
+    <string name="enable_bluetooth_notification">Please turn on bluetooth to enable Covid Watch to function.</string>
 
 </resources>

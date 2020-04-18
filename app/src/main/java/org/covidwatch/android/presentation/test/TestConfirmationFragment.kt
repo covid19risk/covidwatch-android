@@ -4,17 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import org.covidwatch.android.R
 import org.covidwatch.android.databinding.FragmentTestConfirmationBinding
+import org.covidwatch.android.domain.TestRepository
+import org.koin.android.ext.android.inject
 
 class TestConfirmationFragment : Fragment() {
 
     private var _binding: FragmentTestConfirmationBinding? = null
     private val binding get() = _binding!!
+
+    private val testRepository: TestRepository by inject()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +50,7 @@ class TestConfirmationFragment : Fragment() {
         AlertDialog.Builder(requireContext())
             .setMessage("Are you sure?")
             .setPositiveButton("Yes") { dialogInterface, i ->
-                Toast.makeText(requireContext(), "TODO: send report", Toast.LENGTH_SHORT).show()
+                testRepository.setUserTestedPositive()
                 findNavController().popBackStack(R.id.homeFragment, false)
             }
             .setNegativeButton("Cancel", null)

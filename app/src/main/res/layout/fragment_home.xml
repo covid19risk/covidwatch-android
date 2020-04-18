@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -9,14 +10,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="32dp"
-        android:paddingBottom="32dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="32dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingHorizontal="32dp"
             android:paddingVertical="24dp">
 
             <ImageView
@@ -37,10 +38,29 @@
                 app:srcCompat="@drawable/ic_menu" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/banner_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?selectableItemBackground"
+            android:drawableStart="@drawable/ic_info"
+            android:drawableEnd="@drawable/ic_keyboard_arrow_right"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:padding="32dp"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            tools:background="@color/tangerine"
+            tools:text="You may have been in contact with COVID-19"
+            tools:visibility="visible" />
+
         <ImageView
-            android:layout_gravity="center_horizontal"
             android:layout_width="300sp"
             android:layout_height="300dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
             app:srcCompat="@drawable/ic_woman_hero" />
 
         <TextView
@@ -48,6 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:paddingHorizontal="32dp"
             android:text="@string/you_re_all_set_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textSize="30sp"
@@ -58,12 +79,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:paddingHorizontal="32dp"
             android:text="@string/thank_you_text" />
 
         <Button
             android:id="@+id/share_app_button"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:layout_marginHorizontal="32dp"
             android:layout_marginTop="24dp"
             android:backgroundTint="@color/bluejay"
             android:text="@string/share_the_app"
@@ -72,6 +95,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="32dp"
             android:text="@string/main_subtext_1"
             android:textAlignment="center" />
 
@@ -80,12 +104,15 @@
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="56dp"
+            android:layout_marginHorizontal="32dp"
             android:layout_marginTop="16dp"
             android:text="@string/text_for_covid_text" />
 
         <TextView
+            android:id="@+id/tested_button_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="32dp"
             android:text="@string/main_subtext_2"
             android:textAlignment="center" />
 

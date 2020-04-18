@@ -1,4 +1,4 @@
-name: Android develop Branch CI
+name: Develop Branch CI
 
 on:
   push:

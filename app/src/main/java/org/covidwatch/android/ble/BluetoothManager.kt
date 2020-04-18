@@ -1,6 +1,7 @@
 package org.covidwatch.android.ble
 
 import android.app.*
+import android.bluetooth.BluetoothAdapter
 import android.content.ComponentName
 import android.content.Context
 import android.content.Context.BIND_AUTO_CREATE
@@ -15,7 +16,7 @@ import org.covidwatch.android.R
 import org.covidwatch.android.data.ContactEvent
 import org.covidwatch.android.data.ContactEventDAO
 import org.covidwatch.android.data.CovidWatchDatabase
-import org.covidwatch.android.presentation.MainActivitiy
+import org.covidwatch.android.presentation.MainActivity
 import org.tcncoalition.tcnclient.BluetoothService
 import org.tcncoalition.tcnclient.BluetoothService.LocalBinder
 import org.tcncoalition.tcnclient.cen.*
@@ -57,7 +58,7 @@ class BluetoothManagerImpl(
                         foregroundNotification()
                     )
                 )
-                start()
+                if (BluetoothAdapter.getDefaultAdapter().bluetoothLeAdvertiser != null) start()
             }
 
             runTimer()
@@ -84,7 +85,7 @@ class BluetoothManagerImpl(
     private fun foregroundNotification(): Notification {
         createNotificationChannelIfNeeded()
 
-        val notificationIntent = Intent(app, MainActivitiy::class.java)
+        val notificationIntent = Intent(app, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(
             app, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT
         )

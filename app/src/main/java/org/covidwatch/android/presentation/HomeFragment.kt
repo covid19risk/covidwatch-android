@@ -1,10 +1,13 @@
 package org.covidwatch.android.presentation
 
+import android.app.Activity.RESULT_OK
+import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -15,10 +18,14 @@ import org.covidwatch.android.domain.FirstTimeUser
 import org.covidwatch.android.domain.ReturnUser
 import org.covidwatch.android.domain.Setup
 import org.covidwatch.android.domain.UserFlow
+import org.covidwatch.android.presentation.home.Banner
 import org.covidwatch.android.presentation.home.HomeViewModel
+import org.covidwatch.android.presentation.util.EventObserver
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment : Fragment(R.layout.fragment_home) {
+private const val REQUEST_ENABLE_BT = 101
+
+class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -46,6 +53,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         homeViewModel.userFlow.observe(viewLifecycleOwner, Observer {
             handleUserFlow(it)
         })
+        homeViewModel.banner.observe(viewLifecycleOwner, Observer {
+            maybeShowBanner(it)
+        })
+        homeViewModel.turnOnBluetoothAction.observe(viewLifecycleOwner, EventObserver {
+            turnOnBluetooth()
+        })
+        homeViewModel.userTestedPositive.observe(viewLifecycleOwner, Observer {
+            updateUiForTestedPositive()
+        })
 
         initClickListeners()
     }
@@ -59,6 +75,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
         binding.shareAppButton.setOnClickListener {
             shareApp()
+        }
+        binding.bannerText.setOnClickListener {
+            homeViewModel.onBannerClicked()
         }
     }
 
@@ -96,5 +115,41 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun updateUiForReturnUser() {
         binding.homeTitle.setText(R.string.welcome_back_title)
         binding.homeSubtitle.setText(R.string.not_detected_text)
+    }
+
+    private fun updateUiForTestedPositive() {
+        binding.homeSubtitle.setText(R.string.reported_tested_positive_text)
+        binding.testedButton.isVisible = false
+        binding.testedButtonText.isVisible = false
+    }
+
+    private fun maybeShowBanner(banner: Banner) {
+        when (banner) {
+            is Banner.Warning -> {
+                binding.bannerText.isVisible = true
+                binding.bannerText.setText(banner.message)
+                binding.bannerText.setBackgroundResource(R.color.tangerine)
+            }
+            is Banner.Info -> {
+                binding.bannerText.isVisible = true
+                binding.bannerText.setText(banner.message)
+                binding.bannerText.setBackgroundResource(R.color.aqua)
+            }
+            is Banner.Empty -> {
+                binding.bannerText.isVisible = false
+            }
+        }
+    }
+
+    private fun turnOnBluetooth() {
+        val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
+        startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_ENABLE_BT && resultCode == RESULT_OK) {
+            homeViewModel.bluetoothIsOn()
+        }
     }
 }

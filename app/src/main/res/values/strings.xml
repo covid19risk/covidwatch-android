@@ -72,6 +72,7 @@
 
     <string name="issues_needs_to_be_resolved">The following issue needs to be resolved</string>
     <string name="turn_on_bluetooth">Turn on Bluetooth</string>
+    <string name="turn_bluetooth_on">Turn Bluetooth on for this device</string>
     <string name="turn_on_bluetooth_subtext">Bluetooth is required for this app to work</string>
     <string name="location_access_on">Location Access On</string>
 
@@ -95,6 +96,8 @@
     <string name="main_subtext_1">It works best when everyone uses it.</string>
     <string name="main_subtext_2">Share your result anonymously to help your community stay safe.</string>
     <string name="contact_alert_text">You may have been in contact with COVID-19</string>
+    <string name="reported_alert_text">You reported that you tested positive for COVID-19</string>
     <string name="share_intent_text">Help your community stay safe, anonymously:</string>
+    <string name="reported_tested_positive_text">Thank you for helping your community stay safe, anonymously.</string>
 
 </resources>

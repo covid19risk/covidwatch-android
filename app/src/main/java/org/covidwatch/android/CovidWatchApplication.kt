@@ -9,8 +9,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import org.covidwatch.android.ble.BluetoothManagerImpl
 import org.covidwatch.android.data.CovidWatchDatabase
+import org.covidwatch.android.data.contactevent.ContactEventFetcher
 import org.covidwatch.android.data.contactevent.ContactEventsDownloadWorker
 import org.covidwatch.android.data.contactevent.LocalContactEventsUploader
+import org.covidwatch.android.data.contactevent.firebase.FirebaseContactEventFetcher
 import org.covidwatch.android.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -27,6 +29,7 @@ class CovidWatchApplication : Application() {
     private val mainScope = CoroutineScope(Dispatchers.Main)
     //TODO: Move to DI module
     private val bluetoothManager = BluetoothManagerImpl(this)
+    private val contactEventFetcher: ContactEventFetcher = FirebaseContactEventFetcher(this)
 
     private var sharedPreferenceChangeListener =
         SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
@@ -81,7 +84,9 @@ class CovidWatchApplication : Application() {
         localContactEventsUploader = LocalContactEventsUploader(this)
         localContactEventsUploader.startUploading()
 
-        schedulePeriodicPublicContactEventsRefresh()
+        // TODO: Phase out previous impl entirely or have it chosen on build
+        // schedulePeriodicPublicContactEventsRefresh()
+        contactEventFetcher.startListening()
 
         currentUserExposureNotifier =
             CurrentUserExposureNotifier(this)

@@ -15,6 +15,16 @@ interface ContactEventFetcher {
      * @return The resulting contact events.
      * @exception Exception Throws an exception on error.
      */
-    fun fetch(timeWindow: ClosedRange<Date>,
-              resultCb: List<String>.(infectionState: InfectionState) -> Unit)
+    fun fetch(timeWindow: ClosedRange<Date>)
+
+    /**
+     * Start listening for contact events from the backend.
+     * @exception Exception Throws an exception on error.
+     */
+    fun startListening()
+
+    /**
+     * Stop listening for contact events from the backend.
+     */
+    fun stopListening()
 }

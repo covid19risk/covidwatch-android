@@ -47,9 +47,7 @@ class ContactEventsDownloadWorker(private val context: Context, workerParams: Wo
         }
 
         try {
-            contactEventFetcher.fetch(Date(fetchSinceTime)..Date()) { infectionState ->
-                markLocalContactEventsWith(infectionState)
-            }
+            contactEventFetcher.fetch(Date(fetchSinceTime)..Date())
 
             return Result.success()
         } catch (ex: Exception) {
@@ -57,16 +55,6 @@ class ContactEventsDownloadWorker(private val context: Context, workerParams: Wo
             return Result.failure()
         } finally {
             Log.i(TAG, "Finish task")
-        }
-    }
-
-    private fun List<String>.markLocalContactEventsWith(infectionState: InfectionState) {
-        Log.d(TAG, "Marking ${size} contact event(s) as $infectionState ...")
-        val dao: ContactEventDAO = CovidWatchDatabase.getInstance(context).contactEventDAO()
-        val chunkSize = 998 // SQLITE_MAX_VARIABLE_NUMBER - 1
-        chunked(chunkSize).forEach {
-            dao.update(it, infectionState.isPotentiallyInfectious)
-            Log.d(TAG, "Marked ${it.size} contact event(s) as $infectionState")
         }
     }
 }

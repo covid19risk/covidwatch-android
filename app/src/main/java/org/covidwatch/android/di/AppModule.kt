@@ -76,7 +76,8 @@ val appModule = module {
         FirebaseContactEventFetcher(
             context = androidContext(),
             preferences = get(),
-            contactEventDAO = get()
+            contactEventDAO = get(),
+            notifyAboutPossibleExposureUseCase = get()
         ) as ContactEventFetcher
     }
 }

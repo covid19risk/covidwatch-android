@@ -17,6 +17,7 @@ import org.covidwatch.android.data.ContactEventDAO
 import org.covidwatch.android.data.CovidWatchDatabase
 import org.covidwatch.android.data.contactevent.ContactEventFetcher
 import org.covidwatch.android.data.contactevent.InfectionState
+import org.covidwatch.android.domain.NotifyAboutPossibleExposureUseCase
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -28,7 +29,8 @@ private const val TAG = "ResultFetcher"
 class FirebaseContactEventFetcher(
     private val context: Context,
     private val preferences: SharedPreferences,
-    private val contactEventDAO: ContactEventDAO
+    private val contactEventDAO: ContactEventDAO,
+    private val notifyAboutPossibleExposureUseCase: NotifyAboutPossibleExposureUseCase
 ) : ContactEventFetcher {
 
     private var listenerRegistration: ListenerRegistration? = null
@@ -71,6 +73,7 @@ class FirebaseContactEventFetcher(
 
                 CovidWatchDatabase.databaseWriteExecutor.execute {
                     snapshot.handleQueryResult(timeWindow)
+                    notifyAboutPossibleExposureUseCase.execute()
                 }
             }
     }

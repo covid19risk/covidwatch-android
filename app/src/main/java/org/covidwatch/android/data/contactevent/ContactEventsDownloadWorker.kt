@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import org.covidwatch.android.R
-import org.covidwatch.android.data.contactevent.firebase.FirebaseContactEventFetcher
 import org.covidwatch.android.domain.NotifyAboutPossibleExposureUseCase
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -32,7 +31,7 @@ class ContactEventsDownloadWorker(
     }
 
     // TODO: Get ContactEventFetcher via DI
-    private val contactEventFetcher: ContactEventFetcher = FirebaseContactEventFetcher(context)
+    private val contactEventFetcher: ContactEventFetcher by inject()
 
     private val notifyAboutPossibleExposureUseCase: NotifyAboutPossibleExposureUseCase by inject()
 

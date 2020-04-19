@@ -5,6 +5,8 @@ import org.covidwatch.android.NotificationFactory
 import org.covidwatch.android.data.CovidWatchDatabase
 import org.covidwatch.android.data.TestedRepositoryImpl
 import org.covidwatch.android.data.UserFlowRepositoryImpl
+import org.covidwatch.android.data.contactevent.ContactEventFetcher
+import org.covidwatch.android.data.contactevent.firebase.FirebaseContactEventFetcher
 import org.covidwatch.android.domain.*
 import org.covidwatch.android.presentation.home.HomeViewModel
 import org.koin.android.ext.koin.androidContext
@@ -68,5 +70,13 @@ val appModule = module {
 
     factory {
         NotificationFactory(androidContext())
+    }
+
+    factory {
+        FirebaseContactEventFetcher(
+            context = androidContext(),
+            preferences = get(),
+            contactEventDAO = get()
+        ) as ContactEventFetcher
     }
 }

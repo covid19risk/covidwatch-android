@@ -1,6 +1,7 @@
 package org.covidwatch.android.data.contactevent.firebase
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.work.ListenableWorker
 import com.google.android.gms.tasks.Continuation
@@ -19,17 +20,18 @@ import org.covidwatch.android.data.contactevent.InfectionState
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+private const val TAG = "ResultFetcher"
+
 /**
  * Firebase implementation of the ContactEventFetcher interface.
  */
 class FirebaseContactEventFetcher(
-    private val context: Context
+    private val context: Context,
+    private val preferences: SharedPreferences,
+    private val contactEventDAO: ContactEventDAO
 ) : ContactEventFetcher {
 
-    companion object {
-        private const val TAG = "ResultFetcher"
-        private lateinit var listenerRegistration: ListenerRegistration
-    }
+    private var listenerRegistration: ListenerRegistration? = null
 
     override fun fetch(
         timeWindow: ClosedRange<Date>
@@ -62,54 +64,19 @@ class FirebaseContactEventFetcher(
                 Timestamp(timeWindow.start)
             )
             .addSnapshotListener { snapshot, e ->
-                if (e != null) {
+                if (e != null || snapshot == null || snapshot.isEmpty) {
                     Log.w(TAG, "Listen failed.", e)
                     return@addSnapshotListener
                 }
-                if (snapshot != null && !snapshot.isEmpty) {
-                    try {
-                        val addedDocumentChanges =
-                            snapshot.documentChanges.filter {
-                                it.type == DocumentChange.Type.ADDED
-                            }
-                        val removedDocumentChanges =
-                            snapshot.documentChanges.filter {
-                                it.type == DocumentChange.Type.REMOVED
-                            }
-                        addedDocumentChanges.markLocalContactEvents {
-                            markLocalContactEventsWith(InfectionState.PotentiallyInfectious)
-                        }
-                        removedDocumentChanges.markLocalContactEvents {
-                            markLocalContactEventsWith(InfectionState.Healthy)
-                        }
 
-                        with(
-                            context.getSharedPreferences(
-                                context.getString(R.string.preference_file_key),
-                                Context.MODE_PRIVATE
-                            ).edit()
-                        ) {
-                            putLong(
-                                context.getString(org.covidwatch.android.R.string.preference_last_contact_events_download_date),
-                                timeWindow.endInclusive.time
-                            )
-                            commit()
-                        }
-
-                        ListenableWorker.Result.success()
-
-                    } catch (exception: Exception) {
-                        ListenableWorker.Result.failure()
-                    }
-                    Log.d(TAG, "Current data: ${snapshot.documents}")
-                } else {
-                    Log.d(TAG, "Current data: null")
+                CovidWatchDatabase.databaseWriteExecutor.execute {
+                    snapshot.handleQueryResult(timeWindow)
                 }
             }
     }
 
     override fun stopListening() {
-        listenerRegistration.remove()
+        listenerRegistration?.remove()
     }
 
     private fun checkResultForErrors(task: Task<Unit>) {
@@ -140,18 +107,13 @@ class FirebaseContactEventFetcher(
                 markLocalContactEventsWith(InfectionState.Healthy)
             }
 
-            with(
-                context.getSharedPreferences(
-                    context.getString(R.string.preference_file_key),
-                    Context.MODE_PRIVATE
-                ).edit()
-            ) {
-                putLong(
+            preferences
+                .edit()
+                .putLong(
                     context.getString(R.string.preference_last_contact_events_download_date),
                     timeWindow.endInclusive.time
                 )
-                commit()
-            }
+                .apply()
 
             ListenableWorker.Result.success()
 
@@ -170,10 +132,9 @@ class FirebaseContactEventFetcher(
 
     private fun List<String>.markLocalContactEventsWith(infectionState: InfectionState) {
         Log.d(TAG, "Marking ${size} contact event(s) as $infectionState ...")
-        val dao: ContactEventDAO = CovidWatchDatabase.getInstance(context).contactEventDAO()
         val chunkSize = 998 // SQLITE_MAX_VARIABLE_NUMBER - 1
         chunked(chunkSize).forEach {
-            dao.update(it, infectionState.isPotentiallyInfectious)
+            contactEventDAO.update(it, infectionState.isPotentiallyInfectious)
             Log.d(TAG, "Marked ${it.size} contact event(s) as $infectionState")
         }
     }

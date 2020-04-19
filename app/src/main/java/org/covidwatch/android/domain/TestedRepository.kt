@@ -1,6 +1,6 @@
 package org.covidwatch.android.domain
 
-interface TestRepository {
+interface TestedRepository {
 
     fun setUserTestedPositive()
 

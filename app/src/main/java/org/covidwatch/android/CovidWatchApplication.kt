@@ -1,18 +1,17 @@
 package org.covidwatch.android
 
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Build
 import android.util.Log
 import androidx.work.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import org.covidwatch.android.ble.BluetoothManagerImpl
 import org.covidwatch.android.data.CovidWatchDatabase
-import org.covidwatch.android.data.contactevent.ContactEventFetcher
 import org.covidwatch.android.data.contactevent.ContactEventsDownloadWorker
 import org.covidwatch.android.data.contactevent.LocalContactEventsUploader
-import org.covidwatch.android.data.contactevent.firebase.FirebaseContactEventFetcher
 import org.covidwatch.android.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -25,11 +24,8 @@ import java.util.concurrent.TimeUnit
 class CovidWatchApplication : Application() {
 
     private lateinit var localContactEventsUploader: LocalContactEventsUploader
-    private lateinit var currentUserExposureNotifier: CurrentUserExposureNotifier
-    private val mainScope = CoroutineScope(Dispatchers.Main)
     //TODO: Move to DI module
     private val bluetoothManager = BluetoothManagerImpl(this)
-    private val contactEventFetcher: ContactEventFetcher = FirebaseContactEventFetcher(this)
 
     private var sharedPreferenceChangeListener =
         SharedPreferences.OnSharedPreferenceChangeListener { sharedPreferences, key ->
@@ -84,13 +80,8 @@ class CovidWatchApplication : Application() {
         localContactEventsUploader = LocalContactEventsUploader(this)
         localContactEventsUploader.startUploading()
 
-        // TODO: Phase out previous impl entirely or have it chosen on build
-        // schedulePeriodicPublicContactEventsRefresh()
-        contactEventFetcher.startListening()
-
-        currentUserExposureNotifier =
-            CurrentUserExposureNotifier(this)
-        currentUserExposureNotifier.startObservingLocalContactEvents()
+        createNotificationChannel()
+        schedulePeriodicPublicContactEventsRefresh()
 
         val isContactEventLoggingEnabled = getSharedPreferences(
             getString(R.string.preference_file_key), Context.MODE_PRIVATE
@@ -99,8 +90,20 @@ class CovidWatchApplication : Application() {
             false
         )
         configureAdvertising(isContactEventLoggingEnabled)
+    }
 
-
+    private fun createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = getString(R.string.channel_name)
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
+                description = getString(R.string.channel_description)
+            }
+            val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 
     private fun schedulePeriodicPublicContactEventsRefresh() {
@@ -110,7 +113,7 @@ class CovidWatchApplication : Application() {
             .build()
 
         val downloadRequest =
-            PeriodicWorkRequestBuilder<ContactEventsDownloadWorker>(3, TimeUnit.HOURS)
+            PeriodicWorkRequestBuilder<ContactEventsDownloadWorker>(1, TimeUnit.HOURS)
                 .setConstraints(constraints)
                 .build()
 

@@ -5,14 +5,18 @@ import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import org.covidwatch.android.R
-import org.covidwatch.android.data.ContactEventDAO
-import org.covidwatch.android.data.CovidWatchDatabase
 import org.covidwatch.android.data.contactevent.firebase.FirebaseContactEventFetcher
+import org.covidwatch.android.domain.NotifyAboutPossibleExposureUseCase
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class ContactEventsDownloadWorker(private val context: Context, workerParams: WorkerParameters) :
-    Worker(context, workerParams) {
+class ContactEventsDownloadWorker(
+    private val context: Context,
+    workerParams: WorkerParameters
+) : Worker(context, workerParams),
+    KoinComponent {
 
     companion object {
         const val WORKER_NAME = "org.covidwatch.android.refresh"
@@ -29,6 +33,8 @@ class ContactEventsDownloadWorker(private val context: Context, workerParams: Wo
 
     // TODO: Get ContactEventFetcher via DI
     private val contactEventFetcher: ContactEventFetcher = FirebaseContactEventFetcher(context)
+
+    private val notifyAboutPossibleExposureUseCase: NotifyAboutPossibleExposureUseCase by inject()
 
     override fun doWork(): Result {
 
@@ -48,6 +54,7 @@ class ContactEventsDownloadWorker(private val context: Context, workerParams: Wo
 
         try {
             contactEventFetcher.fetch(Date(fetchSinceTime)..Date())
+            notifyAboutPossibleExposureUseCase.execute()
 
             return Result.success()
         } catch (ex: Exception) {

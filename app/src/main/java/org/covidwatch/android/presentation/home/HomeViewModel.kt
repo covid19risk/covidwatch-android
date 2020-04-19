@@ -7,18 +7,18 @@ import org.covidwatch.android.data.ContactEvent
 import org.covidwatch.android.data.ContactEventDAO
 import org.covidwatch.android.domain.*
 import org.covidwatch.android.presentation.util.Event
+import org.covidwatch.android.presentation.util.getDistinct
 
 class HomeViewModel(
     private val userFlowRepository: UserFlowRepository,
-    private val testRepository: TestRepository,
-    private val refreshPublicContactEventsUseCase: RefreshPublicContactEventsUseCase,
+    private val testedRepository: TestedRepository,
     private val maybeEnableContactEventLoggingUseCase: MaybeEnableContactEventLoggingUseCase,
     contactEventDAO: ContactEventDAO
 ) : ViewModel() {
 
     private val bluetoothAdapter: BluetoothAdapter? by lazy { BluetoothAdapter.getDefaultAdapter() }
 
-    private val isUserTestedPositive: Boolean get() = testRepository.isUserTestedPositive()
+    private val isUserTestedPositive: Boolean get() = testedRepository.isUserTestedPositive()
     private val _userTestedPositive = MutableLiveData<Unit>()
     val userTestedPositive: LiveData<Unit> get() = _userTestedPositive
 
@@ -32,11 +32,14 @@ class HomeViewModel(
     val userFlow: LiveData<UserFlow> get() = _userFlow
 
     private val hasPossiblyInteractedWithInfected: LiveData<Boolean> =
-        Transformations.map(contactEventDAO.allSortedByDescTimestamp) { cenList ->
-            cenList.fold(initial = false) { isInfected: Boolean, event: ContactEvent ->
-                isInfected || event.wasPotentiallyInfectious
+        Transformations
+            .map(contactEventDAO.allSortedByDescTimestamp) { cenList ->
+                cenList.fold(initial = false) { isInfected: Boolean, event: ContactEvent ->
+                    isInfected || event.wasPotentiallyInfectious
+                }
             }
-        }
+            .getDistinct()
+
     private val interactedWithInfectedObserver = Observer<Boolean> { hasPossiblyInteractedWithInfected ->
         if (hasPossiblyInteractedWithInfected && !isUserTestedPositive) {
             _banner.value = Banner.Warning(R.string.contact_alert_text, BannerAction.PotentialRisk)
@@ -62,7 +65,6 @@ class HomeViewModel(
         if (userFlow !is Setup) {
             ensureBluetoothIsOn()
             checkIfTestedPositive()
-            refreshPublicContactEventsUseCase.execute()
             maybeEnableContactEventLoggingUseCase.execute()
         }
         _userFlow.value = userFlow

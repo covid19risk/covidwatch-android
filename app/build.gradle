@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
-//apply plugin: 'jacoco'
+apply plugin: "com.vanniktech.android.junit.jacoco"
 
 android {
     compileSdkVersion 29
@@ -26,10 +26,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            //testCoverageEnabled true
+            testCoverageEnabled false
         }
         debug {
-            //testCoverageEnabled true
+            testCoverageEnabled true
         }
     }
 
@@ -55,11 +55,21 @@ android {
             testLogging {
                 events "passed", "skipped", "failed", "standardOut", "standardError"
             }
-//            jacoco {
-//                includeNoLocationClasses = true
-//            }
+
         }
 
+    }
+
+    junitJacoco {
+        jacocoVersion = '0.8.2' // type String
+        ignoreProjects = [] // type String array
+        excludes // type String List
+        includeNoLocationClasses = false // type boolean
+        includeInstrumentationCoverageInMergedReport = false // type boolean
+    }
+
+    lintOptions {
+        abortOnError false
     }
 
 }

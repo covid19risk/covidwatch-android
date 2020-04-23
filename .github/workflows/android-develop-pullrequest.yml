@@ -1,4 +1,5 @@
-name: Develop Branch CI
+name: Develop Branch Pull Request CI
+
 
 on:
   pull_request:
@@ -7,10 +8,19 @@ on:
 jobs:
 
   test:
+
     name: CI Testing
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/github-script@0.3.0
+      with:
+        github-token: ${{github.token}}
+        script: |
+          const core = require('@actions/core')
+          const prNumber = context.payload.number;
+          core.exportVariable('PULL_NUMBER', prNumber);
+
     - uses: actions/checkout@v2
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
@@ -20,8 +30,7 @@ jobs:
       env:
         LOGIN_KEY: ${{ secrets.SONARCLOUD_LOGIN_KEY }}
         PR_BRANCH: github.event.pull_request.head.ref
-        PR_NUM: 107
-      run: bash ./gradlew clean build sonarqube -Dsonar.login=$LOGIN_KEY -Dsonar.pullrequest.branch=$PR_BRANCH -Dsonar.pullrequest.base=develop -Dsonar.pullrequest.key=$PR_NUM --stacktrace
+      run: bash ./gradlew clean build sonarqube -Dsonar.login=$LOGIN_KEY -Dsonar.pullrequest.branch=$PR_BRANCH -Dsonar.pullrequest.base=develop -Dsonar.pullrequest.key=$PULL_NUMBER --stacktrace
   apk:
       name: Generate APK
       runs-on: ubuntu-latest

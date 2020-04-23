@@ -1,4 +1,4 @@
-name: Develop Branch CI
+name: Develop Branch Push CI
 
 on:
   push:

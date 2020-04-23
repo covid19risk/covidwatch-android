@@ -1,6 +1,7 @@
 package org.covidwatch.android.di
 
 import android.content.Context
+import androidx.work.WorkManager
 import org.covidwatch.android.NotificationFactory
 import org.covidwatch.android.TcnManager
 import org.covidwatch.android.ble.BluetoothManager
@@ -8,6 +9,7 @@ import org.covidwatch.android.ble.BluetoothManagerImpl
 import org.covidwatch.android.data.CovidWatchDatabase
 import org.covidwatch.android.data.TestedRepositoryImpl
 import org.covidwatch.android.data.UserFlowRepositoryImpl
+import org.covidwatch.android.data.contactevent.ContactEventsDownloader
 import org.covidwatch.android.domain.NotifyAboutPossibleExposureUseCase
 import org.covidwatch.android.domain.TestedRepository
 import org.covidwatch.android.domain.UserFlowRepository
@@ -40,8 +42,15 @@ val appModule = module {
         HomeViewModel(
             userFlowRepository = get(),
             testedRepository = get(),
-            contactEventDAO = get()
+            contactEventDAO = get(),
+            contactEventsDownloader = get()
         )
+    }
+
+    factory {
+        val context = androidContext()
+        val workManager = WorkManager.getInstance(context)
+        ContactEventsDownloader(workManager)
     }
 
     single {

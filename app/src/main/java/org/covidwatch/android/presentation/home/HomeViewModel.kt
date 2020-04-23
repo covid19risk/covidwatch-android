@@ -6,6 +6,7 @@ import org.covidwatch.android.CovidWatchApplication
 import org.covidwatch.android.R
 import org.covidwatch.android.data.ContactEvent
 import org.covidwatch.android.data.ContactEventDAO
+import org.covidwatch.android.data.contactevent.ContactEventsDownloader
 import org.covidwatch.android.domain.*
 import org.covidwatch.android.presentation.util.Event
 import org.covidwatch.android.presentation.util.getDistinct
@@ -13,6 +14,7 @@ import org.covidwatch.android.presentation.util.getDistinct
 class HomeViewModel(
     private val userFlowRepository: UserFlowRepository,
     private val testedRepository: TestedRepository,
+    private val contactEventsDownloader: ContactEventsDownloader,
     contactEventDAO: ContactEventDAO
 ) : ViewModel() {
 
@@ -93,7 +95,7 @@ class HomeViewModel(
     }
 
     fun onRefreshRequested() {
-        CovidWatchApplication.getContext()?.executePublicContactEventsRefresh()
+        contactEventsDownloader.executePublicContactEventsRefresh()
     }
 
     fun bluetoothIsOn() {

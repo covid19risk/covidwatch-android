@@ -31,11 +31,11 @@ jobs:
       with:
         java-version: 1.8
     - name: Clean, Build, Test
+      run: bash ./gradlew clean build --stacktrace
+    - name: Update SonarQube
       env:
         LOGIN_KEY: ${{ secrets.SONARCLOUD_LOGIN_KEY }}
         PR_BRANCH: github.event.pull_request.head.ref
-      run: bash ./gradlew clean build --stacktrace
-    - name: Update SonarQube
       run: bash ./gradlew sonarqube -Dsonar.login=$LOGIN_KEY -Dsonar.pullrequest.branch=$PR_BRANCH -Dsonar.pullrequest.base=develop -Dsonar.pullrequest.key=$PULL_NUMBER --stacktrace
   apk:
       name: Generate APK

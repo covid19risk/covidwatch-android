@@ -21,10 +21,10 @@ jobs:
       with:
         java-version: 1.8
     - name: Clean, Build, Test
-      env:
-        LOGIN_KEY: ${{ secrets.SONARCLOUD_LOGIN_KEY }}
       run: bash ./gradlew clean build --stacktrace
     - name: Update SonarQube
+      env:
+        LOGIN_KEY: ${{ secrets.SONARCLOUD_LOGIN_KEY }}
       run: bash ./gradlew sonarqube -Dsonar.login=$LOGIN_KEY -Dsonar.branch.name=develop -Dsonar.branch.target=develop --stacktrace
   apk:
       name: Generate APK

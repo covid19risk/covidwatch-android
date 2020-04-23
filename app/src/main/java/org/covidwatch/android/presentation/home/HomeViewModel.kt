@@ -2,6 +2,7 @@ package org.covidwatch.android.presentation.home
 
 import android.bluetooth.BluetoothAdapter
 import androidx.lifecycle.*
+import org.covidwatch.android.CovidWatchApplication
 import org.covidwatch.android.R
 import org.covidwatch.android.data.ContactEvent
 import org.covidwatch.android.data.ContactEventDAO
@@ -89,6 +90,10 @@ class HomeViewModel(
                 _potentialRiskAction.value = Event(Unit)
             }
         }
+    }
+
+    fun onRefreshRequested() {
+        CovidWatchApplication.getContext()?.executePublicContactEventsRefresh()
     }
 
     fun bluetoothIsOn() {

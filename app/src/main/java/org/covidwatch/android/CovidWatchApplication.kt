@@ -13,8 +13,17 @@ class CovidWatchApplication : Application() {
 
     private lateinit var localContactEventsUploader: LocalContactEventsUploader
 
+    companion object {
+        private var context: CovidWatchApplication? = null
+
+        fun getContext(): CovidWatchApplication? {
+            return context
+        }
+    }
+
     override fun onCreate() {
         super.onCreate()
+        context = this
 
         startKoin {
             androidContext(applicationContext)
@@ -28,14 +37,9 @@ class CovidWatchApplication : Application() {
     }
 
     private fun schedulePeriodicPublicContactEventsRefresh() {
-        val constraints = Constraints.Builder()
-            .setRequiresCharging(false)
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-
         val downloadRequest =
             PeriodicWorkRequestBuilder<ContactEventsDownloadWorker>(1, TimeUnit.HOURS)
-                .setConstraints(constraints)
+                .setConstraints(getRefreshConstraints())
                 .build()
 
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
@@ -43,5 +47,24 @@ class CovidWatchApplication : Application() {
             ExistingPeriodicWorkPolicy.REPLACE,
             downloadRequest
         )
+    }
+
+    fun executePublicContactEventsRefresh() {
+        val downloadRequest = OneTimeWorkRequestBuilder<ContactEventsDownloadWorker>()
+            .setConstraints(getRefreshConstraints())
+            .build()
+
+        WorkManager.getInstance(this).enqueueUniqueWork(
+            ContactEventsDownloadWorker.WORKER_NAME,
+            ExistingWorkPolicy.REPLACE,
+            downloadRequest
+        )
+    }
+
+    private fun getRefreshConstraints(): Constraints {
+        return Constraints.Builder()
+            .setRequiresCharging(false)
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
     }
 }

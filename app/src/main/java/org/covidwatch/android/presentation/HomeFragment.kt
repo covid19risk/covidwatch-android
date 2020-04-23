@@ -95,6 +95,10 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         binding.bannerText.setOnClickListener {
             homeViewModel.onBannerClicked()
         }
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            homeViewModel.onRefreshRequested()
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
     }
 
     private fun shareApp() {

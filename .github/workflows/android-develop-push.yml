@@ -20,11 +20,12 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Clean, Build, Test, Update SonarQube
+    - name: Clean, Build, Test
       env:
         LOGIN_KEY: ${{ secrets.SONARCLOUD_LOGIN_KEY }}
-      run: bash ./gradlew clean build sonarqube -Dsonar.login=$LOGIN_KEY -Dsonar.branch.name=develop -Dsonar.branch.target=develop --stacktrace
-  
+      run: bash ./gradlew clean build --stacktrace
+    - name: Update SonarQube
+      run: bash ./gradlew sonarqube -Dsonar.login=$LOGIN_KEY -Dsonar.branch.name=develop -Dsonar.branch.target=develop --stacktrace
   apk:
       name: Generate APK
       runs-on: ubuntu-latest

@@ -62,7 +62,7 @@ android {
     }
 
     junitJacoco {
-        jacocoVersion = '0.8.2' // type String
+        jacocoVersion = '0.8.5' // type String
         ignoreProjects = [] // type String array
         excludes // type String List
         includeNoLocationClasses = false // type boolean
@@ -160,7 +160,6 @@ sonarqube {
         property "sonar.projectKey", "covid19risk_covidwatch-android"
         property "sonar.organization", "covid19risk"
         property "sonar.host.url", "https://sonarcloud.io"
-//        property "sonar.login", "6ce973fa20404fffdfb3817a5293e322e943aeac"
         property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/debug/jacoco.xml,${buildDir}/reports/jacoco/release/jacoco.xml,${buildDir}/reports/jacocoCombined/debug/jacoco.xml"
     }
 }

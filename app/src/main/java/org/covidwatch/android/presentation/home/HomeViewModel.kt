@@ -38,6 +38,9 @@ class HomeViewModel(
     private val _potentialRiskAction = MutableLiveData<Event<Unit>>()
     val potentialRiskAction: LiveData<Event<Unit>> get() = _potentialRiskAction
 
+    private val _isRefreshing = MutableLiveData<Boolean>()
+    val isRefreshing: LiveData<Boolean> get() = _isRefreshing
+
     private val hasPossiblyInteractedWithInfected: LiveData<Boolean> =
         Transformations
             .map(contactEventDAO.allSortedByDescTimestamp) { cenList ->
@@ -93,8 +96,12 @@ class HomeViewModel(
         }
     }
 
-    fun onRefreshRequested() {
-        contactEventsDownloader.executePublicContactEventsRefresh()
+    fun onRefreshRequested(lifecycle: LifecycleOwner) {
+        contactEventsDownloader.executePublicContactEventsRefresh(lifecycle) { success -> onRefreshFinished(success) }
+    }
+
+    private fun onRefreshFinished(success: Boolean) {
+        _isRefreshing.value = false
     }
 
     fun bluetoothIsOn() {

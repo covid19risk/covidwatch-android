@@ -80,6 +80,9 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         homeViewModel.userTestedPositive.observe(viewLifecycleOwner, Observer {
             updateUiForTestedPositive()
         })
+        homeViewModel.isRefreshing.observe(viewLifecycleOwner, Observer {
+            updateRefreshingState(it)
+        })
 
         initClickListeners()
     }
@@ -98,8 +101,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             homeViewModel.onBannerClicked()
         }
         binding.swipeRefreshLayout.setOnRefreshListener {
-            homeViewModel.onRefreshRequested()
-            binding.swipeRefreshLayout.isRefreshing = false
+            homeViewModel.onRefreshRequested(viewLifecycleOwner)
         }
     }
 
@@ -161,6 +163,10 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 binding.bannerText.isVisible = false
             }
         }
+    }
+
+    private fun updateRefreshingState(isRefreshing: Boolean) {
+        binding.swipeRefreshLayout.isRefreshing = isRefreshing
     }
 
     @AfterPermissionGranted(LOCATION_PERMISSION)

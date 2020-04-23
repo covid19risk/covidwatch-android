@@ -1,8 +1,6 @@
 name: Develop Branch CI
 
 on:
-  push:
-    branches: [ develop ]
   pull_request:
     branches: [ develop ]
 

@@ -19,7 +19,7 @@ jobs:
     - name: Clean, Build, Test, Update SonarQube
       env:
         LOGIN_KEY: ${{ secrets.SONARCLOUD_LOGIN_KEY }}
-        run: bash ./gradlew clean build sonarqube -Dsonar.login=$LOGIN_KEY -Dsonar.branch.name=develop -Dsonar.branch.target=develop --stacktrace
+      run: bash ./gradlew clean build sonarqube -Dsonar.login=$LOGIN_KEY -Dsonar.branch.name=develop -Dsonar.branch.target=develop --stacktrace
   
   apk:
       name: Generate APK

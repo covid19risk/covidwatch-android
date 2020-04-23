@@ -20,7 +20,7 @@ jobs:
       env:
         LOGIN_KEY: ${{ secrets.SONARCLOUD_LOGIN_KEY }}
         PR_BRANCH: github.event.pull_request.head.ref
-        PR_NUM: github.event.pull_request.number
+        PR_NUM: 107
       run: bash ./gradlew clean build sonarqube -Dsonar.login=$LOGIN_KEY -Dsonar.pullrequest.branch=$PR_BRANCH -Dsonar.pullrequest.base=develop -Dsonar.pullrequest.key=$PR_NUM --stacktrace
   apk:
       name: Generate APK

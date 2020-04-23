@@ -43,7 +43,7 @@ class CovidWatchApplication : Application() {
                 .build()
 
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
-            ContactEventsDownloadWorker.WORKER_NAME,
+            "ContactEventsDownloadWorkerPeriodicRefresh",
             ExistingPeriodicWorkPolicy.REPLACE,
             downloadRequest
         )
@@ -55,7 +55,7 @@ class CovidWatchApplication : Application() {
             .build()
 
         WorkManager.getInstance(this).enqueueUniqueWork(
-            ContactEventsDownloadWorker.WORKER_NAME,
+            "ContactEventsDownloadWorkerOneTimeRefresh",
             ExistingWorkPolicy.REPLACE,
             downloadRequest
         )

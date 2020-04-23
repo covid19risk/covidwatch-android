@@ -21,8 +21,6 @@ class ContactEventsDownloadWorker(
     KoinComponent {
 
     companion object {
-        const val WORKER_NAME = "org.covidwatch.android.refresh"
-
         private const val TAG = "ContactEventsDownloadWorker"
 
         // Only fetch contact events from the past 2 weeks

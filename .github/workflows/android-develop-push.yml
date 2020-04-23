@@ -1,0 +1,42 @@
+name: Develop Branch CI
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+
+  test:
+    name: CI Testing
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Clean, Build, Test, Update SonarQube
+      env:
+        LOGIN_KEY: ${{ secrets.SONARCLOUD_LOGIN_KEY }}
+        run: bash ./gradlew clean build sonarqube -Dsonar.login=$LOGIN_KEY -Dsonar.branch.name=develop -Dsonar.branch.target=develop --stacktrace
+  
+  apk:
+      name: Generate APK
+      runs-on: ubuntu-latest
+
+      steps:
+        - uses: actions/checkout@v2
+        - name: set up JDK 1.8
+          uses: actions/setup-java@v1
+          with:
+            java-version: 1.8
+        - name: Build debug APK
+          run: bash ./gradlew assembleDebug --stacktrace
+        - name: Upload APK
+          uses: actions/upload-artifact@v1
+          with:
+            name: app
+            path: app/build/outputs/apk/debug/app-debug.apk

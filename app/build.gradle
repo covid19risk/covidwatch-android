@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: "com.vanniktech.android.junit.jacoco"
+apply plugin: "org.sonarqube"
 
 android {
     compileSdkVersion 29
@@ -154,6 +155,15 @@ dependencies {
 
 }
 
+sonarqube {
+    properties {
+        property "sonar.projectKey", "covid19risk_covidwatch-android"
+        property "sonar.organization", "covid19risk"
+        property "sonar.host.url", "https://sonarcloud.io"
+//        property "sonar.login", "6ce973fa20404fffdfb3817a5293e322e943aeac"
+        property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/debug/jacoco.xml,${buildDir}/reports/jacoco/release/jacoco.xml,${buildDir}/reports/jacocoCombined/debug/jacoco.xml"
+    }
+}
 //task jacocoTestReport(type: JacocoReport) {
 //    reports {
 //        xml.enabled true

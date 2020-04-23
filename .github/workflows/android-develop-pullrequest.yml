@@ -9,20 +9,21 @@ on:
 jobs:
 
   test:
-    name: Unit Tests
+    name: CI Testing
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-    - name: Header text
-      run: echo Beginning Unit Test Routine
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Run unit tests
-      run: bash ./gradlew test --stacktrace
-  
+    - name: Clean, Build, Test, Update SonarQube
+      env:
+        LOGIN_KEY: ${{ secrets.SONARCLOUD_LOGIN_KEY }}
+        PR_BRANCH: github.event.pull_request.head.ref
+        PR_NUM: github.event.pull_request.number
+      run: bash ./gradlew clean build sonarqube -Dsonar.login=$LOGIN_KEY -Dsonar.pullrequest.branch=$PR_BRANCH -Dsonar.pullrequest.base=develop -Dsonar.pullrequest.key=$PR_NUM --stacktrace
   apk:
       name: Generate APK
       runs-on: ubuntu-latest

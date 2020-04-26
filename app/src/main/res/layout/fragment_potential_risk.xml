@@ -81,61 +81,61 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/check"
-                    android:drawablePadding="24dp"
-                    android:paddingStart="24dp"
-                    android:text="@string/monitor_symptoms"
-                    android:textSize="18sp"
-                    tools:ignore="RtlSymmetry"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginBottom="24dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/check"
+                android:drawablePadding="24dp"
+                android:paddingStart="24dp"
+                android:text="@string/monitor_symptoms"
+                android:textSize="18sp"
+                tools:ignore="RtlSymmetry"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="24dp"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/check"
-                    android:drawablePadding="24dp"
-                    android:paddingStart="24dp"
-                    android:text="@string/isolate_from_others"
-                    android:textSize="18sp"
-                    tools:ignore="RtlSymmetry"
-                    android:layout_marginBottom="24dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/check"
+                android:drawablePadding="24dp"
+                android:paddingStart="24dp"
+                android:text="@string/isolate_from_others"
+                android:textSize="18sp"
+                tools:ignore="RtlSymmetry"
+                android:layout_marginBottom="24dp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/check"
-                    android:drawablePadding="24dp"
-                    android:text="@string/rest_and_take_care"
-                    android:textSize="18sp"
-                    android:paddingStart="24dp"
-                    tools:ignore="RtlSymmetry"
-                    android:layout_marginBottom="24dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/check"
+                android:drawablePadding="24dp"
+                android:text="@string/rest_and_take_care"
+                android:textSize="18sp"
+                android:paddingStart="24dp"
+                tools:ignore="RtlSymmetry"
+                android:layout_marginBottom="24dp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/check"
-                    android:drawablePadding="24dp"
-                    android:paddingStart="24dp"
-                    android:text="@string/get_tested_if_advised"
-                    android:textSize="18sp"
-                    tools:ignore="RtlSymmetry"
-                    android:layout_marginBottom="24dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/check"
+                android:drawablePadding="24dp"
+                android:paddingStart="24dp"
+                android:text="@string/get_tested_if_advised"
+                android:textSize="18sp"
+                tools:ignore="RtlSymmetry"
+                android:layout_marginBottom="24dp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/check"
-                    android:drawablePadding="24dp"
-                    android:paddingStart="24dp"
-                    android:text="@string/refer_to_local_agencies"
-                    android:textSize="18sp"
-                    tools:ignore="RtlSymmetry"
-                    android:layout_marginBottom="24dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/check"
+                android:drawablePadding="24dp"
+                android:paddingStart="24dp"
+                android:text="@string/refer_to_local_agencies"
+                android:textSize="18sp"
+                tools:ignore="RtlSymmetry"
+                android:layout_marginBottom="24dp" />
 
             <TextView
                 android:id="@+id/textView8"

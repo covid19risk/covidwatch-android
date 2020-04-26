@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?selectableItemBackground"
-    android:paddingHorizontal="32dp"
-    android:paddingVertical="16dp"
-    android:textSize="18sp"
+    android:paddingHorizontal="@dimen/menu_item_horizontal_padding"
+    android:paddingVertical="@dimen/menu_item_vertical_padding"
+    android:textSize="@dimen/menu_item_text_size"
     tools:drawableEnd="@drawable/ic_exit_to_app"
     tools:text="Settings" />

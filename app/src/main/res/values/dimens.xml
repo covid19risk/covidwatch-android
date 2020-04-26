@@ -17,4 +17,21 @@
     <dimen name="tested_button_font_size">18dp</dimen>
     <dimen name="default_padding">16dp</dimen>
 
+    <!-- Navigation bar -->
+    <dimen name="nav_vertical_padding">24dp</dimen>
+    <dimen name="nav_logo_size">40dp</dimen>
+    <dimen name="nav_close_size">40dp</dimen>
+
+    <!-- Alert banners -->
+    <dimen name="alert_banner_drawable_padding">16dp</dimen>
+    <dimen name="alert_banner_text_size">18sp</dimen>
+    <dimen name="alert_banner_padding">32dp</dimen>
+
+    <!-- Menu items -->
+    <dimen name="menu_item_horizontal_padding">32dp</dimen>
+    <dimen name="menu_item_vertical_padding">16dp</dimen>
+    <dimen name="menu_item_text_size">18sp</dimen>
+
+
+
 </resources>

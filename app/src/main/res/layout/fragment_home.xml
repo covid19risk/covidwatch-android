@@ -18,11 +18,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingHorizontal="32dp"
-            android:paddingVertical="24dp">
+            android:paddingVertical="@dimen/nav_vertical_padding">
 
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/nav_logo_size"
+                android:layout_height="@dimen/nav_logo_size"
                 app:srcCompat="@drawable/ic_cw_brandmark_blue" />
 
             <View
@@ -32,8 +32,8 @@
 
             <ImageView
                 android:id="@+id/menu_button"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/nav_close_size"
+                android:layout_height="@dimen/nav_close_size"
                 android:background="?selectableItemBackgroundBorderless"
                 app:srcCompat="@drawable/ic_menu" />
         </LinearLayout>

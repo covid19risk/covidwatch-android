@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/close_button"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/nav_close_size"
+        android:layout_height="@dimen/nav_close_size"
         android:layout_gravity="end"
         android:background="?selectableItemBackgroundBorderless"
         app:srcCompat="@drawable/ic_close" />

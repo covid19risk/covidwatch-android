@@ -100,6 +100,9 @@ class HomeViewModel(
         val state = contactEventsDownloader.executePublicContactEventsRefresh()
         _isRefreshing.addSource(state) {
             _isRefreshing.value = !it
+            if (_isRefreshing.value == false) {
+                _isRefreshing.removeSource(state)
+            }
         }
     }
 

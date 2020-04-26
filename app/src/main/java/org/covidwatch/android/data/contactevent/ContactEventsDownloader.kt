@@ -35,13 +35,15 @@ class ContactEventsDownloader(private val workManager: WorkManager) {
         )
 
         val stateLiveData = MediatorLiveData<Boolean>()
-        stateLiveData.addSource(workManager.getWorkInfosForUniqueWorkLiveData(ONE_TIME_REFRESH)) {
+        val uniqueWorkLiveData = workManager.getWorkInfosForUniqueWorkLiveData(ONE_TIME_REFRESH)
+        stateLiveData.addSource(uniqueWorkLiveData) {
             val workInfo = it.firstOrNull()
             if (workInfo != null) {
-                when {
-                    workInfo.state == WorkInfo.State.SUCCEEDED -> stateLiveData.value = true
-                    workInfo.state == WorkInfo.State.FAILED -> stateLiveData.value = true
-                    workInfo.state == WorkInfo.State.CANCELLED -> stateLiveData.value = true
+                when (workInfo.state) {
+                    WorkInfo.State.SUCCEEDED -> { stateLiveData.value = true; stateLiveData.removeSource(uniqueWorkLiveData) }
+                    WorkInfo.State.FAILED -> { stateLiveData.value = true; stateLiveData.removeSource(uniqueWorkLiveData) }
+                    WorkInfo.State.CANCELLED -> { stateLiveData.value = true; stateLiveData.removeSource(uniqueWorkLiveData) }
+                    else -> stateLiveData.value = false
                 }
             }
         }

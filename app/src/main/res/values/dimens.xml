@@ -4,8 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
 
     <!-- Imported from the UX repo -->
-    <dimen name="big_button_width">300dp</dimen>
-    <dimen name="big_button_height">60dp</dimen>
     <dimen name="big_button_text_size">20dp</dimen>
     <dimen name="button_corner_radius">20dp</dimen>
     <dimen name="small_button_corner_radius">10dp</dimen>
@@ -16,6 +14,9 @@
     <dimen name="tested_button_vertical_margin">10dp</dimen>
     <dimen name="tested_button_font_size">18dp</dimen>
     <dimen name="default_padding">16dp</dimen>
+
+    <!-- Shared UI elements -->
+    <dimen name="big_button_height">56dp</dimen>
 
     <!-- Navigation bar -->
     <dimen name="nav_vertical_padding">24dp</dimen>

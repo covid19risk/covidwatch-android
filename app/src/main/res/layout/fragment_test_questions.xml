@@ -44,17 +44,13 @@
 
     <Button
         android:id="@+id/negative_button"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
+        style="@style/BigButton"
         android:layout_marginTop="8dp"
         android:text="@string/tested_negative" />
 
     <Button
         android:id="@+id/positive_button"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
+        style="@style/BigButton"
         android:text="@string/tested_positive" />
 
     <TextView
@@ -69,10 +65,8 @@
 
     <Button
         android:id="@+id/continue_button"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
+        style="@style/BigButton.Blue"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@color/bluejay"
         android:text="@string/continue_button"
         android:visibility="gone"
         tools:visibility="visible" />
@@ -91,9 +85,7 @@
 
     <Button
         android:id="@+id/date_button"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
+        style="@style/BigButton"
         android:layout_marginTop="8dp"
         android:visibility="gone"
         tools:text="April 15, 2020"
@@ -101,12 +93,9 @@
 
     <Button
         android:id="@+id/report_button"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
+        style="@style/BigButton.Blue"
         android:layout_marginTop="24dp"
-        android:backgroundTint="@color/bluejay"
         android:text="@string/report"
-        android:textColor="@color/white"
         android:visibility="gone"
         tools:visibility="visible" />
 

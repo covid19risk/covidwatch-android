@@ -48,12 +48,9 @@
 
         <Button
             android:id="@+id/grant_location_access_button"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
+            style="@style/BigButton.Blue"
             android:layout_marginTop="32dp"
-            android:backgroundTint="@color/bluejay"
-            android:text="@string/grant_location_access"
-            android:textColor="@color/white" />
+            android:text="@string/grant_location_access"/>
 
         <TextView
             android:layout_width="match_parent"

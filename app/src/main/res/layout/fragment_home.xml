@@ -76,13 +76,10 @@
 
         <Button
             android:id="@+id/share_app_button"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
+            style="@style/BigButton.Blue"
             android:layout_marginHorizontal="32dp"
             android:layout_marginTop="24dp"
-            android:backgroundTint="@color/bluejay"
-            android:text="@string/share_the_app"
-            android:textColor="@color/white" />
+            android:text="@string/share_the_app"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -93,9 +90,7 @@
 
         <Button
             android:id="@+id/tested_button"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
+            style="@style/BigButton"
             android:layout_marginHorizontal="32dp"
             android:layout_marginTop="16dp"
             android:text="@string/text_for_covid_text" />

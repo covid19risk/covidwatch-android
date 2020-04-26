@@ -88,18 +88,13 @@
 
             <Button
                 android:id="@+id/confirm_button"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
+                style="@style/BigButton.Blue"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="@color/bluejay"
-                android:text="@string/confirm"
-                android:textColor="@color/white" />
+                android:text="@string/confirm"/>
 
             <Button
                 android:id="@+id/cancel_button"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
+                style="@style/BigButton"
                 android:layout_marginTop="8dp"
                 android:text="@string/cancel" />
         </LinearLayout>

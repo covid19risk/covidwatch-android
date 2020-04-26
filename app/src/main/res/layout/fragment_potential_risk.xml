@@ -153,18 +153,14 @@
 
             <Button
                 android:id="@+id/risk_negative_button"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
+                style="@style/BigButton"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:text="@string/tested_negative" />
 
             <Button
                 android:id="@+id/risk_positive_button"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
+                style="@style/BigButton"
                 android:layout_weight="1"
                 android:text="@string/tested_positive" />
 
@@ -181,12 +177,10 @@
 
             <Button
                 android:id="@+id/risk_continue_button"
+                style="@style/BigButton.Blue"
                 tools:visibility="visible"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
                 android:layout_marginTop="16dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/bluejay"
                 android:text="@string/continue_button"
                 android:visibility="gone" />
 
@@ -205,9 +199,7 @@
 
             <Button
                 android:id="@+id/risk_date_button"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
+                style="@style/BigButton"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:visibility="gone"
@@ -216,13 +208,10 @@
 
             <Button
                 android:id="@+id/risk_report_button"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
+                style="@style/BigButton.Blue"
                 android:layout_marginTop="24dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/bluejay"
                 android:text="@string/report"
-                android:textColor="@color/white"
                 android:visibility="gone"
                 tools:visibility="visible" />
 

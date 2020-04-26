@@ -23,4 +23,14 @@
         <item name="android:textColor">@color/white</item>
         <item name="fontFamily">@font/montserrat</item>
     </style>
+    
+    <style name="BigButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/big_button_height</item>
+    </style>
+
+    <style name="BigButton.Blue" parent="BigButton">
+        <item name="backgroundTint">@color/bluejay</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>

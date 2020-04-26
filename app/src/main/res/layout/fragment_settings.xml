@@ -33,12 +33,9 @@
 
     <Button
         android:id="@+id/bluetooth_button"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
+        style="@style/BigButton.Blue"
         android:layout_marginTop="24dp"
-        android:backgroundTint="@color/bluejay"
-        android:text="@string/turn_on_bluetooth"
-        android:textColor="@color/white" />
+        android:text="@string/turn_on_bluetooth"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -48,9 +45,7 @@
 
     <Button
         android:id="@+id/location_button"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
+        style="@style/BigButton"
         android:layout_marginTop="32dp"
         android:text="@string/location_access_on" />
 

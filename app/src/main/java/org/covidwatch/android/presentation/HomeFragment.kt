@@ -101,7 +101,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             homeViewModel.onBannerClicked()
         }
         binding.swipeRefreshLayout.setOnRefreshListener {
-            homeViewModel.onRefreshRequested(viewLifecycleOwner)
+            homeViewModel.onRefreshRequested()
         }
     }
 

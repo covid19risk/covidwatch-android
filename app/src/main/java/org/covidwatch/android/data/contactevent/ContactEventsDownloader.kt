@@ -1,7 +1,7 @@
 package org.covidwatch.android.data.contactevent
 
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.work.*
 import java.util.concurrent.TimeUnit
 
@@ -23,7 +23,7 @@ class ContactEventsDownloader(private val workManager: WorkManager) {
         )
     }
 
-    fun executePublicContactEventsRefresh(lifecycle: LifecycleOwner, callback: (success: Boolean) -> Unit) {
+    fun executePublicContactEventsRefresh(): LiveData<Boolean> {
         val downloadRequest = OneTimeWorkRequestBuilder<ContactEventsDownloadWorker>()
             .setConstraints(getRefreshConstraints())
             .build()
@@ -34,17 +34,19 @@ class ContactEventsDownloader(private val workManager: WorkManager) {
             downloadRequest
         )
 
-        workManager.getWorkInfosForUniqueWorkLiveData(ONE_TIME_REFRESH)
-            .observe(lifecycle, Observer { workInfos ->
-                val workInfo = workInfos.firstOrNull()
-                if (workInfo != null) {
-                    when {
-                        workInfo.state == WorkInfo.State.SUCCEEDED -> callback(true)
-                        workInfo.state == WorkInfo.State.FAILED -> callback(false)
-                        workInfo.state == WorkInfo.State.CANCELLED -> callback(false)
-                    }
+        val stateLiveData = MediatorLiveData<Boolean>()
+        stateLiveData.addSource(workManager.getWorkInfosForUniqueWorkLiveData(ONE_TIME_REFRESH)) {
+            val workInfo = it.firstOrNull()
+            if (workInfo != null) {
+                when {
+                    workInfo.state == WorkInfo.State.SUCCEEDED -> stateLiveData.value = true
+                    workInfo.state == WorkInfo.State.FAILED -> stateLiveData.value = true
+                    workInfo.state == WorkInfo.State.CANCELLED -> stateLiveData.value = true
                 }
-            })
+            }
+        }
+
+        return stateLiveData
     }
 
     private fun getRefreshConstraints(): Constraints {

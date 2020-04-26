@@ -21,7 +21,7 @@
     <!-- Navigation bar -->
     <dimen name="nav_vertical_padding">24dp</dimen>
     <dimen name="nav_logo_size">40dp</dimen>
-    <dimen name="nav_close_size">40dp</dimen>
+    <dimen name="nav_button_size">40dp</dimen>
 
     <!-- Alert banners -->
     <dimen name="alert_banner_drawable_padding">16dp</dimen>

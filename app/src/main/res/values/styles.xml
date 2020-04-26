@@ -33,4 +33,26 @@
         <item name="backgroundTint">@color/bluejay</item>
         <item name="android:textColor">@color/white</item>
     </style>
+
+    <style name="NavLogo">
+        <item name="android:layout_width">@dimen/nav_logo_size</item>
+        <item name="android:layout_height">@dimen/nav_logo_size</item>
+        <item name="srcCompat">@drawable/ic_cw_brandmark_blue</item>
+    </style>
+
+    <style name="NavPadding">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="NavButton">
+        <item name="android:layout_width">@dimen/nav_button_size</item>
+        <item name="android:layout_height">@dimen/nav_button_size</item>
+        <item name="background">?selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="NavButton.Close" parent="NavButton">
+        <item name="srcCompat">@drawable/ic_close</item>
+    </style>
 </resources>

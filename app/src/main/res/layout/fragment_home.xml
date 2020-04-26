@@ -32,10 +32,10 @@
 
             <ImageView
                 android:id="@+id/menu_button"
-                android:layout_width="@dimen/nav_close_size"
-                android:layout_height="@dimen/nav_close_size"
-                android:background="?selectableItemBackgroundBorderless"
-                app:srcCompat="@drawable/ic_menu" />
+                style="@style/NavButton"
+                app:srcCompat="@drawable/ic_menu"
+                android:contentDescription="@string/menu_button_content_descriptor" />
+
         </LinearLayout>
 
         <TextView

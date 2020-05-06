@@ -13,7 +13,8 @@
         android:layout_height="40dp"
         android:layout_gravity="end"
         android:background="?selectableItemBackgroundBorderless"
-        app:srcCompat="@drawable/ic_close" />
+        app:srcCompat="@drawable/ic_close"
+        android:contentDescription="@string/close_button_content_descriptor" />
 
     <TextView
         android:layout_width="match_parent"

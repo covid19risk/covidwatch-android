@@ -18,7 +18,8 @@
             android:layout_gravity="end"
             android:layout_marginEnd="32dp"
             android:background="?selectableItemBackgroundBorderless"
-            app:srcCompat="@drawable/ic_close" />
+            app:srcCompat="@drawable/ic_close"
+            android:contentDescription="@string/close_button_content_descriptor" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/menu_list"

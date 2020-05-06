@@ -48,7 +48,8 @@
                 android:layout_height="300dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="16dp"
-                app:srcCompat="@drawable/ic_woman_hero" />
+                app:srcCompat="@drawable/ic_woman_hero"
+                android:contentDescription="@null" />
 
             <TextView
                 android:id="@+id/home_title"

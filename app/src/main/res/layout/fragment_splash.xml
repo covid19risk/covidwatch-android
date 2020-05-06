@@ -13,7 +13,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_cw_brandmark_white" />
+        app:srcCompat="@drawable/ic_cw_brandmark_white"
+        android:contentDescription="@null" />
 
     <TextView
         android:id="@+id/textView"

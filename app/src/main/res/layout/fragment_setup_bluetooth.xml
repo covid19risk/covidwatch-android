@@ -17,13 +17,15 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginTop="24dp"
-            app:srcCompat="@drawable/ic_cw_brandmark_blue" />
+            app:srcCompat="@drawable/ic_cw_brandmark_blue"
+            android:contentDescription="@string/logo_image_content_descriptor" />
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            app:srcCompat="@drawable/people_bluetooth_connect" />
+            app:srcCompat="@drawable/people_bluetooth_connect"
+            android:contentDescription="@null" />
 
         <TextView
             android:layout_width="match_parent"

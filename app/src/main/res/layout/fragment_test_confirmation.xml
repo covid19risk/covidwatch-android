@@ -22,7 +22,8 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                app:srcCompat="@drawable/ic_cw_brandmark_blue" />
+                app:srcCompat="@drawable/ic_cw_brandmark_blue"
+                android:contentDescription="@string/logo_image_content_descriptor" />
 
             <View
                 android:layout_width="0dp"
@@ -34,7 +35,8 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="?selectableItemBackgroundBorderless"
-                app:srcCompat="@drawable/ic_close" />
+                app:srcCompat="@drawable/ic_close"
+                android:contentDescription="@string/close_button_content_descriptor" />
         </LinearLayout>
 
         <TextView
